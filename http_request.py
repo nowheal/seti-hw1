@@ -6,9 +6,9 @@ class RawHttpPacket:
     MULTIPART_DELIMITER = "----CustomFormBoundary7f9a8b2c4d1e"
     DEFAULT_USER_TOKEN = "1153e179bbb8d48ddd72e9f8c452c2bb"
 
-    def __init__(self, target_host: str, uri_path: str, http_method: HttpMethod, payload: bytes = b""):
+    def __init__(self, target_host: str, url_path: str, http_method: HttpMethod, payload: bytes = b""):
         self._host = target_host
-        self._uri = uri_path
+        self._url = url_path
         self._method = http_method
         self._payload = payload
         self._query_items: list[str] = []
@@ -77,7 +77,7 @@ class RawHttpPacket:
         self._sync_content_length()
 
     def build_raw_packet(self) -> bytes:
-        full_path = self._uri
+        full_path = self._url
         if self._query_items:
             sep = "&" if "?" in full_path else "?"
             full_path = f"{full_path}{sep}{'&'.join(self._query_items)}"
